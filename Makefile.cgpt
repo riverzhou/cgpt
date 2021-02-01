@@ -1,0 +1,65 @@
+
+SRCDIR := $(shell pwd)
+export SRCDIR
+BUILD := ${SRCDIR}/build
+export BUILD
+
+RM := rm 
+STRIP := strip 
+CC := gcc
+CFLAGS := -DCHROMEOS_ENVIRONMENT -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -Wno-address-of-packed-member -Wall
+
+CGPT_SRCS := \
+			cgpt/cgpt.c \
+			cgpt/cgpt_add.c \
+			cgpt/cgpt_boot.c \
+			cgpt/cgpt_common.c \
+			cgpt/cgpt_create.c \
+			cgpt/cgpt_edit.c \
+			cgpt/cgpt_find.c \
+			cgpt/cgpt_legacy.c \
+			cgpt/cgpt_nor.c \
+			cgpt/cgpt_prioritize.c \
+			cgpt/cgpt_repair.c \
+			cgpt/cgpt_show.c \
+			cgpt/cmd_add.c \
+			cgpt/cmd_boot.c \
+			cgpt/cmd_create.c \
+			cgpt/cmd_edit.c \
+			cgpt/cmd_find.c \
+			cgpt/cmd_legacy.c \
+			cgpt/cmd_prioritize.c \
+			cgpt/cmd_repair.c \
+			cgpt/cmd_show.c \
+			firmware/lib/cgptlib/cgptlib.c \
+			firmware/lib/cgptlib/cgptlib_internal.c \
+			firmware/lib/cgptlib/crc32.c \
+			firmware/2lib/2stub.c \
+			firmware/lib/gpt_misc.c \
+			firmware/stub/tpm_lite_stub.c \
+			firmware/stub/vboot_api_stub.c \
+			firmware/stub/vboot_api_stub_disk.c \
+			firmware/stub/vboot_api_stub_init.c \
+			firmware/stub/vboot_api_stub_stream.c
+
+CGPT := ${BUILD}/cgpt
+
+LDLIBS := -luuid
+
+INCLUDES += \
+			-Ifirmware/include \
+			-Ifirmware/lib/include \
+			-Ifirmware/lib/cgptlib/include \
+			-Ifirmware/lib/cryptolib/include \
+			-Ifirmware/lib/tpm_lite/include \
+			-Ifirmware/2lib/include \
+			-Ifirmware/lib20/include \
+			-Ihost/include \
+			-Ihost/lib/include \
+			-Ihost/lib21/include  
+
+${CGPT}: 
+	${RM) -rf ${CGPT} 
+	${CC} -o ${CGPT} ${CFLAGS} ${CGPT_SRCS} ${INCLUDES} ${LDLIBS}
+	$(STRIP) ${CGPT} 
+
