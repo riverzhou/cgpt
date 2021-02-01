@@ -7,7 +7,7 @@ export BUILD
 RM := rm 
 STRIP := strip 
 CC := gcc
-CFLAGS := -DCHROMEOS_ENVIRONMENT -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -Wno-address-of-packed-member -Wall
+CFLAGS := -DCHROMEOS_ENVIRONMENT -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -Wno-address-of-packed-member -Wall -static
 
 CGPT_SRCS := \
 			cgpt/cgpt.c \
